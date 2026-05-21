@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { getAllDoctors } from '@/lib/doctors/db';
+import { getDoctorById } from '@/lib/doctors/db';
+
 
 export default function AllAppointmentsPage({ doctors }) {
+  // const d = getDoctorById (id); // ডেটা ফেচ করার জন্য আপনার API কল বা ডেটাবেস কোয়েরি এখানে করবেন
   const router = useRouter();
   
   // 🔐 Simulated Auth State (আপনার আসল Auth Context/Redux দিয়ে এটি পরিবর্তন করবেন)
@@ -100,7 +102,7 @@ export default function AllAppointmentsPage({ doctors }) {
                   
                   {/* The View Details Button */}
                   <button 
-                    onClick={() => handleViewDetails(doctor.id)}
+                    onClick={() => handleViewDetails(doctor._id)}
                     className="bg-slate-900 hover:bg-teal-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-md"
                   >
                     View Details

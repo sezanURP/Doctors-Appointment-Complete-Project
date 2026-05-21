@@ -1,12 +1,31 @@
-export const getAllDoctors = async () => {
-  const res = await fetch("http://localhost:8080/doctors"); 
-  const doctors = await res.json();
-  return doctors;
-console.log(doctors);
-}
+// src/lib/doctors/db.js
 
-   // export const getDoctorById = async (id) => {
-   //   const res = await fetch(`http://localhost:8080/doctors/${id}`);
-   //   const doctor = await res.json();
-   //   return doctor;
-   // }
+export const getAllDoctors = async () => {
+  try {
+    const res = await fetch("http://localhost:8080/doctors");
+    if (!res.ok) throw new Error("Failed to fetch doctors");
+    const doctors = await res.json();
+    return doctors;
+  } catch (error) {
+    console.error("Error fetching all doctors:", error);
+    return [];
+  }
+};
+
+export const getDoctorById = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:8080/doctors/${id}`, {
+      cache: "no-store",
+    }); 
+    
+    if (!res.ok) throw new Error(`Failed to fetch doctor with id ${id}`);
+
+   
+    const doctor = await res.json();
+    return doctor;
+  } catch (error) {
+    console.error(`Error fetching doctor ${id}:`, error);
+    return null;
+  }
+};
+
