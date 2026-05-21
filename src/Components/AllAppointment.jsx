@@ -4,23 +4,24 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getDoctorById } from '@/lib/doctors/db';
+import { authClient, useSession } from '@/lib/auth-client';
 
 
 export default function AllAppointmentsPage({ doctors }) {
-  // const d = getDoctorById (id); // ডেটা ফেচ করার জন্য আপনার API কল বা ডেটাবেস কোয়েরি এখানে করবেন
-  const router = useRouter();
+
   
   // 🔐 Simulated Auth State (আপনার আসল Auth Context/Redux দিয়ে এটি পরিবর্তন করবেন)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: session } = authClient.useSession();
+  const router = useRouter();
 
   // View Details বাটনে ক্লিক করলে এই ফাংশনটি কাজ করবে
   const handleViewDetails = (doctorId) => {
-    if (isLoggedIn) {
+    // ২. isLoggedIn এর বদলে session চেক করুন
+    if (session) { 
       // ইউজার লগইন করা থাকলে ডক্টর ডিটেইলস পেজে যাবে
       router.push(`/doctors/${doctorId}`);
     } else {
       // ইউজার লগইন করা না থাকলে লগইন পেজে পাঠাবে
-      // ?redirect যুক্ত করার সুবিধা হলো, লগইন করার পর ইউজারকে আবার আগের জায়গায় ফিরিয়ে আনা যায়
       router.push(`/login?redirect=/doctors/${doctorId}`);
     }
   };
@@ -36,18 +37,7 @@ export default function AllAppointmentsPage({ doctors }) {
             <p className="text-slate-500">Find and book appointments with our expert specialists.</p>
           </div>
           
-          {/* ডেভেলপার টেস্টিংয়ের জন্য বাটন (প্রোডাকশনে মুছে ফেলবেন) */}
-          <div className="mt-4 md:mt-0 p-3 bg-white border border-blue-100 rounded-lg shadow-sm">
-            <span className="text-sm font-medium text-slate-600 mr-3">System Test:</span>
-            <button 
-              onClick={() => setIsLoggedIn(!isLoggedIn)}
-              className={`px-4 py-1.5 rounded-md text-sm font-bold transition-colors ${
-                isLoggedIn ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-              }`}
-            >
-              User is {isLoggedIn ? 'Logged In' : 'Logged Out'} (Click to Switch)
-            </button>
-          </div>
+        
         </div>
 
         {/* 🏥 Responsive Grid Layout for Doctor Cards */}

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import Image from 'next/image';
 
 export default function Navbar() {
-  const { data: session } = useSession();
+  const { data: session } = authClient.useSession();
   
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

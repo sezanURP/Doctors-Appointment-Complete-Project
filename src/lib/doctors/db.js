@@ -18,7 +18,7 @@ export const getDoctorById = async (id) => {
       cache: "no-store",
     }); 
     
-    if (!res.ok) throw new Error(`Failed to fetch doctor with id ${id}`);
+    // if (!res.ok) throw new Error(`Failed to fetch doctor with id ${id}`);
 
    
     const doctor = await res.json();

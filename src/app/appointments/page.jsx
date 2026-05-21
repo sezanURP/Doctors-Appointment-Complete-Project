@@ -5,12 +5,6 @@ import { getAllDoctors } from "@/lib/doctors/db";
 
 export default async function  AppointmentsPage() {
   const doctors = await getAllDoctors();
-   
-   
-  //  const router = useRouter();
-  //  const handleViewDetails = (doctorId) => {
-  //   router.push(`/doctors/${doctorId}`);
-  // };
 
 
   return (

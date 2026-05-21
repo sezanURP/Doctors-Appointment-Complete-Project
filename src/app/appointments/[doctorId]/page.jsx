@@ -1,14 +1,14 @@
-// src/app/appointments/[doctorId]/page.jsx
+
 import Image from "next/image";
 import Link from "next/link";
 import { getDoctorById } from "@/lib/doctors/db";
-import BookingModal from "./BookingModal"; // Client Component ইমপোর্ট করা হলো
+import BookingModal from "./BookingModal"; 
 
-// এটি একটি Server Component
+
 export default async function DoctorDetailsPage({ params }) {
   const { doctorId } = params;
   
-  // সার্ভার থেকে সরাসরি ডেটা ফেচ করা হচ্ছে
+
   const doctor = await getDoctorById(doctorId);
   console.log("Fetched Doctor Details:", doctor);
 
@@ -80,7 +80,7 @@ export default async function DoctorDetailsPage({ params }) {
               </div>
 
               <div className="mt-8 pt-8 border-t border-slate-100">
-                {/* ক্লায়েন্ট কম্পোনেন্ট (Booking Modal) এখানে ব্যবহার করা হলো এবং props হিসেবে ডাটা পাঠানো হলো */}
+              
                 <BookingModal doctor={doctor} />
               </div>
 
