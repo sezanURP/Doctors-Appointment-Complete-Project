@@ -33,29 +33,30 @@ export default function BookingModal({ doctor }) {
 
     try {
       const { data: tokenData } = await authClient.token();
+      console.log("JWT Token in BookingModal:", tokenData?.token);
 
-      const res = await fetch("http://localhost:8080/bookings", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${tokenData?.token}` // যদি JWT ব্যবহার করেন
+          "Authorization": `Bearer ${tokenData?.token}` 
         },
         body: JSON.stringify(appointmentData),
       });
 
       const result = await res.json();
 
-      // ⚠️ এখানে চেক করা হচ্ছে ব্যাকএন্ড থেকে কোনো এরর (400 স্ট্যাটাস) এসেছে কি না
+   
       if (!res.ok || result.success === false) {
-        // আগে থেকে বুকিং থাকলে এই এরর মেসেজটি দেখাবে এবং মডাল বন্ধ হবে না
+      
         toast.error(result.message || "Failed to book appointment.");
         return; 
       }
 
-      // যদি সফলভাবে ডেটাবেসে সেভ হয়
+      
       if (result.insertedId) {
         toast.success("Appointment Booked Successfully!");
-        setIsOpen(false); // মডাল বন্ধ হয়ে যাবে
+        setIsOpen(false); 
       }
 
     } catch (error) {
