@@ -2,11 +2,11 @@
 "use client";
 
 import { useState } from "react";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 
 export default function BookingModal({ doctor }) {
-  const { data: session } = useSession();
+  const { data: session } = authClient.useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     patientName: "",
@@ -31,36 +31,70 @@ export default function BookingModal({ doctor }) {
       ...formData,
     };
 
-    console.log("Submitting Booking:", appointmentData);
-    toast.success("Appointment Booked Successfully!");
-    setIsOpen(false);
+    try {
+      const { data: tokenData } = await authClient.token();
+
+      const res = await fetch("http://localhost:8080/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${tokenData?.token}` // যদি JWT ব্যবহার করেন
+        },
+        body: JSON.stringify(appointmentData),
+      });
+
+      const result = await res.json();
+
+      // ⚠️ এখানে চেক করা হচ্ছে ব্যাকএন্ড থেকে কোনো এরর (400 স্ট্যাটাস) এসেছে কি না
+      if (!res.ok || result.success === false) {
+        // আগে থেকে বুকিং থাকলে এই এরর মেসেজটি দেখাবে এবং মডাল বন্ধ হবে না
+        toast.error(result.message || "Failed to book appointment.");
+        return; 
+      }
+
+      // যদি সফলভাবে ডেটাবেসে সেভ হয়
+      if (result.insertedId) {
+        toast.success("Appointment Booked Successfully!");
+        setIsOpen(false); // মডাল বন্ধ হয়ে যাবে
+      }
+
+    } catch (error) {
+      console.error("Error booking appointment:", error);
+      toast.error("Server error. Please try again later.");
+    }
   };
+
+
+
 
   return (
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="w-full md:w-auto bg-teal-700 hover:bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg transition-all shadow-md"
+        className="w-full md:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all shadow-md"
       >
         Book Appointment
       </button>
 
+
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-1500">
           
           {/* Modal Container: Flex Col + Max Height 90vh */}
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[90vh] relative overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[90vh] relative overflow-hidden p-6">
             
             {/* 1. Header (সবার উপরে ফিক্সড থাকবে) */}
-            <div className="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-white flex-shrink-0 z-10">
+            <div className="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-teal-300 flex-shrink-0 z-10">
               <div>
                 <h2 className="text-xl font-bold text-slate-800">Book Appointment</h2>
+        
                 <p className="text-sm text-slate-500">with {doctor.name}</p>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-red-500 transition-colors p-2 bg-slate-50 rounded-full hover:bg-red-50">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
             </div>
+            <br />
 
             {/* Form wrapper */}
             <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
@@ -120,8 +154,8 @@ export default function BookingModal({ doctor }) {
               </div>
 
               {/* 3. Footer / Submit Button (সবার নিচে ফিক্সড থাকবে) */}
-              <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex-shrink-0 z-10">
-                <button type="submit" className="w-full bg-[#008B8B] hover:bg-teal-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg flex justify-center items-center gap-2">
+              <div className="px-6 py-10 border-t border-slate-100 bg-slate-50 flex-shrink-0 z-10">
+                <button type="submit" className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-6 rounded-xl transition-all shadow-md hover:shadow-lg flex justify-center items-center gap-2">
                   <span>Confirm Booking</span>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </button>
