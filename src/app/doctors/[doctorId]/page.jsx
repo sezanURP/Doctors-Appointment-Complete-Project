@@ -7,6 +7,40 @@ import { headers } from "next/headers";
 import { authClient } from "@/lib/auth-client";
 import BookingModal from "@/Components/BooingModal.jsx/BookingModal";
 
+export async function generateMetadata({ params }) {
+  // Next.js 15 অনুযায়ী params কে await করতে হয়
+  const resolvedParams = await params;
+  const targetId = resolvedParams.id || resolvedParams.doctorId;
+  
+  try {
+    // ডক্টরের ডেটা ফেচ করা হচ্ছে
+    const doctor = await getDoctorById(targetId);
+
+    // যদি ডক্টরের ডেটা না পাওয়া যায়
+    if (!doctor || !doctor.name) {
+      return {
+        title: "Doctor Not Found | DocAppoint",
+        description: "The requested doctor profile could not be found on our system.",
+      }
+    }
+
+    // সফলভাবে ডেটা পেলে ডাইনামিক মেটাডেটা রিটার্ন করবে
+    return {
+      title: `${doctor.name} - ${doctor.specialty || 'Specialist'}`,
+      description: doctor.bio 
+        ? `${doctor.bio.substring(0, 160)}...` 
+        : `Learn more about ${doctor.name} and book your medical appointment easily.`,
+      openGraph: {
+        images: doctor.image ? [doctor.image] : [],
+      },
+    }
+  } catch (error) {
+    return {
+      title: "Doctor Details | DocAppoint",
+    }
+  }
+}
+
 
 
 export default async function DoctorDetailsPage({ params }) {

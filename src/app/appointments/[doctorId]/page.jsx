@@ -4,7 +4,30 @@ import Link from "next/link";
 import { getDoctorById } from "@/lib/doctors/db";
 import BookingModal from "@/Components/BooingModal.jsx/BookingModal";
 
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const targetId = resolvedParams.id || resolvedParams.doctorId;
+  
+  try {
+    const doctor = await getDoctorById(targetId);
 
+    if (!doctor || !doctor.name) {
+      return {
+        title: "Book Appointment ",
+        description: "Book your medical appointment securely on DocAppoint.",
+      }
+    }
+
+    return {
+      title: `Book Appointment with ${doctor.name}`,
+      description: `Schedule your consultation with ${doctor.name}, ${doctor.specialty || 'Specialist'}. Choose an available time slot that works best for you.`,
+    }
+  } catch (error) {
+    return {
+      title: "Book Appointment ",
+    }
+  }
+}
 
 export default async function DoctorDetailsPage({ params }) {
   const { doctorId } = await params;

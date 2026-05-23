@@ -5,10 +5,10 @@ import Image from "next/image";
 import { useSession, authClient } from "@/lib/auth-client"; 
 import { toast } from "react-toastify";
 
-// export const metadata = {
-//   title: "Dashboard",
 
-//   description: "Manage your doctor appointments, view booking history, and update your profile on DocAppoint.",
+// export const metadata = {
+//   title: "Dashboard | DocAppoint",
+//   description: "Manage your medical appointments, view your booking history, and update your personal profile securely on DocAppoint.",
 // };
 
 export default function DashboardPage() {

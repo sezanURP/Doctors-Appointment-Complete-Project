@@ -3,7 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "@/lib/auth-client";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
+
+
+// export const metadata = {
+//   title: "Login | DocAppoint",
+//   description: "Log in to your DocAppoint account to easily manage your healthcare appointments and consult with expert doctors.",
+// };
 
 export default function Login() {
   const [email, setEmail] = useState("");

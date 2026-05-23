@@ -1,4 +1,4 @@
-// app/register/page.js
+
 "use client";
 import { useState } from "react";
 import Link from "next/link";
@@ -6,10 +6,16 @@ import { signUp } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
+// export const metadata = {
+//   title: "Create an Account | DocAppoint",
+//   description: "Sign up for DocAppoint today. Create your account to start finding and booking appointments with top medical specialists.",
+// };
+
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [image, setImage] = useState("");
   const router = useRouter();
 
   const handleRegister = async (e) => {
@@ -21,7 +27,7 @@ export default function Register() {
       return;
     }
 
-    const { data, error } = await signUp.email({ email, password, name });
+    const { data, error } = await signUp.email({ email, password, name, image });
     if (error) toast.error(error.message);
     else {
       toast.success("Registered successfully! Please login.");
@@ -40,8 +46,8 @@ export default function Register() {
           <input type="email" id="email" placeholder="Email" required className="w-full p-3 border rounded-xl" onChange={e=>setEmail(e.target.value)} />
           <label htmlFor="password">Password</label>
           <input type="password" id="password" placeholder="Password" required className="w-full p-3 border rounded-xl" onChange={e=>setPassword(e.target.value)} />
-          <label htmlFor="Image">Image</label>
-          <input type="url" id="Image" placeholder="input your image URL" required className="w-full p-3 border rounded-xl" onChange={e=>setImage(e.target.value)} />
+          <label htmlFor="image">Image URL</label>
+          <input type="url" id="image" placeholder="Input your image URL" required className="w-full p-3 border rounded-xl" onChange={e=>setImage(e.target.value)} />
           <button type="submit" className="w-full bg-teal-600 text-white p-4 rounded-xl font-bold hover:bg-teal-700 transition">Register</button>
         </form>
         <p className="text-center mt-6 text-slate-600">Already have an account? <Link href="/login" className="text-teal-600 font-bold">Login</Link></p>

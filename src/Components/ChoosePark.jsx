@@ -33,7 +33,7 @@ const WhyChooseUs = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         
         <div className="mb-16">
-          <h2 className="inline-block text-3xl md:text-4xl font-bold text-white bg-blue-600 px-4 py-1 mb-3">
+          <h2 className="inline-block text-3xl md:text-4xl font-bold   px-4 py-1 mb-3">
             Why Choose DocAppoint?
           </h2>
           <p className="text-slate-500 text-lg">Built around your health and your time.</p>
