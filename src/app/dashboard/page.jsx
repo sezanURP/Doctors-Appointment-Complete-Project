@@ -5,6 +5,11 @@ import Image from "next/image";
 import { useSession, authClient } from "@/lib/auth-client"; 
 import { toast } from "react-toastify";
 
+// export const metadata = {
+//   title: "Dashboard",
+
+//   description: "Manage your doctor appointments, view booking history, and update your profile on DocAppoint.",
+// };
 
 export default function DashboardPage() {
   const { data: session, isPending } = useSession();

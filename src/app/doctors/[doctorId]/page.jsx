@@ -27,6 +27,8 @@ export default async function DoctorDetailsPage({ params }) {
     headers: {
       authorization: `Bearer ${token}`
     }
+   
+
   });
 
 
@@ -34,6 +36,7 @@ export default async function DoctorDetailsPage({ params }) {
 
   if (!doctor) {
     return (
+      
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
         <h2 className="text-2xl font-bold text-slate-800 mb-4">Doctor Not Found</h2>
         <Link href="/appointments" className="text-teal-600 hover:underline">Go back to all appointments</Link>

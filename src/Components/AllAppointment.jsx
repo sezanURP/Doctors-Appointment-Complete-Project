@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { getDoctorById } from '@/lib/doctors/db';
+
 import { authClient, useSession } from '@/lib/auth-client';
 
 

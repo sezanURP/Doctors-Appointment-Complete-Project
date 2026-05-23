@@ -12,14 +12,14 @@ export const getAllDoctors = async () => {
   }
 };
 
-export const getDoctorById = async (id, token) => {
+export const getDoctorById = async (id ) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/doctors/${id}`, {
       cache: "no-store",
       headers: {
         "Content-Type": "application/json",
-        // ⚠️ ব্যাকএন্ডে টোকেন পাঠানোর জন্য Authorization হেডার যুক্ত করা হলো
-        "Authorization": `Bearer ${token}` 
+        
+        // "Authorization": `Bearer ${token}` 
       }
 
     }); 
@@ -39,8 +39,8 @@ export const getDoctorById = async (id, token) => {
 
 export const getTopDoctors = async () => {
   try {
-    const res = await fetch("http://localhost:8080/doctors/top", {
-      next: { revalidate: 3600 }, // এটি প্রতি ১ ঘণ্টায় একবার ক্যাশ রিফ্রেশ করবে, যা হোমপেজের জন্য ভালো
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/doctors/top`, {
+      next: { revalidate: 3600 }, 
     });
     
     if (!res.ok) {

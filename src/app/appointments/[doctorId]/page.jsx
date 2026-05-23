@@ -7,11 +7,11 @@ import BookingModal from "@/Components/BooingModal.jsx/BookingModal";
 
 
 export default async function DoctorDetailsPage({ params }) {
-  const { doctorId } = params;
+  const { doctorId } = await params;
   
 
   const doctor = await getDoctorById(doctorId);
-  console.log("Fetched Doctor Details:", doctor);
+  // console.log("Fetched Doctor Details:", doctor);
 
   if (!doctor) {
     return (
