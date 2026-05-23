@@ -2,23 +2,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getDoctorById } from "@/lib/doctors/db";
-import BookingModal from "./BookingModal";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { authClient } from "@/lib/auth-client";
+import BookingModal from "@/Components/BooingModal.jsx/BookingModal";
+
+
 
 export default async function DoctorDetailsPage({ params }) {
   const resolvedParams = await params;
   const targetId = resolvedParams.id || resolvedParams.doctorId;
   
-  const doctor = await getDoctorById(targetId);
-
-
-
- const { token} = await auth.api.getToken({
+   const { token} = await auth.api.getToken({
     headers: await headers()
   })
-  console.log("JWT Token in DoctorDetailsPage:",token); 
+  // console.log("JWT Token in DoctorDetailsPage:",token); 
+  
+  const doctor = await getDoctorById(targetId, token);
+  // console.log("Fetched Doctor Data:", doctor); // ডেটা কনসোলে দেখুন
+
+
   
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/doctors/${targetId}`, {
     headers: {

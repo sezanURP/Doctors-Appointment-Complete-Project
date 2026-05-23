@@ -40,6 +40,8 @@ export default function Register() {
           <input type="email" id="email" placeholder="Email" required className="w-full p-3 border rounded-xl" onChange={e=>setEmail(e.target.value)} />
           <label htmlFor="password">Password</label>
           <input type="password" id="password" placeholder="Password" required className="w-full p-3 border rounded-xl" onChange={e=>setPassword(e.target.value)} />
+          <label htmlFor="Image">Image</label>
+          <input type="url" id="Image" placeholder="input your image URL" required className="w-full p-3 border rounded-xl" onChange={e=>setImage(e.target.value)} />
           <button type="submit" className="w-full bg-teal-600 text-white p-4 rounded-xl font-bold hover:bg-teal-700 transition">Register</button>
         </form>
         <p className="text-center mt-6 text-slate-600">Already have an account? <Link href="/login" className="text-teal-600 font-bold">Login</Link></p>

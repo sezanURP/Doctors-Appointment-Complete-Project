@@ -10,18 +10,18 @@ import { authClient, useSession } from '@/lib/auth-client';
 export default function AllAppointmentsPage({ doctors }) {
 
   
-  // 🔐 Simulated Auth State (আপনার আসল Auth Context/Redux দিয়ে এটি পরিবর্তন করবেন)
+
   const { data: session } = authClient.useSession();
   const router = useRouter();
 
-  // View Details বাটনে ক্লিক করলে এই ফাংশনটি কাজ করবে
+  
   const handleViewDetails = (doctorId) => {
-    // ২. isLoggedIn এর বদলে session চেক করুন
+    
     if (session) { 
-      // ইউজার লগইন করা থাকলে ডক্টর ডিটেইলস পেজে যাবে
+    
       router.push(`/doctors/${doctorId}`);
     } else {
-      // ইউজার লগইন করা না থাকলে লগইন পেজে পাঠাবে
+     
       router.push(`/login?redirect=/doctors/${doctorId}`);
     }
   };
@@ -29,8 +29,7 @@ export default function AllAppointmentsPage({ doctors }) {
   return (
     <div className="min-h-screen bg-slate-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Page Header & Auth Toggle (For Testing) */}
+
         <div className="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-slate-200 pb-6">
           <div>
             <h1 className="text-3xl font-bold text-slate-800 mb-2">Available Appointments</h1>

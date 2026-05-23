@@ -2,7 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getDoctorById } from "@/lib/doctors/db";
-import BookingModal from "./BookingModal"; 
+import BookingModal from "@/Components/BooingModal.jsx/BookingModal";
+
 
 
 export default async function DoctorDetailsPage({ params }) {

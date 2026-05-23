@@ -1,8 +1,14 @@
-import React from 'react';
+
 import Link from 'next/link';
 
+
+
 const HeroSection = () => {
+
+  
   return (
+
+
     <section className="relative w-full h-[600px] flex items-center justify-center">
       {/* Background Image with Overlay */}
       <div 
@@ -30,7 +36,7 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Link href="/doctors" className="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-lg font-medium transition-all text-center flex items-center justify-center gap-2">
+            <Link href="/appointments" className="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-lg font-medium transition-all text-center flex items-center justify-center gap-2">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
               Browse Doctors
             </Link>

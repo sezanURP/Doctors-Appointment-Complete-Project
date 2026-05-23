@@ -3,7 +3,8 @@
 
 import { useState } from "react";
 import { authClient, useSession } from "@/lib/auth-client";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
+
 
 export default function BookingModal({ doctor }) {
   const { data: session } = authClient.useSession();
